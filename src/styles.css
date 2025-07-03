@@ -1,0 +1,10 @@
+.col-12{
+    text-align: center;
+    box-sizing: border-box;
+    
+}
+
+.title{
+    font-size: 2rem;
+    margin-block: 2rem;
+}
