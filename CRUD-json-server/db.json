@@ -6,19 +6,19 @@
       "precio": 1500
     },
     {
-      "id": "2",
-      "nombre": "Mouse",
-      "precio": 25
-    },
-    {
-      "id": "3",
-      "nombre": "Teclado",
-      "precio": 50
+      "nombre": "Mouse inalámbrico",
+      "precio": 35,
+      "id": "2"
     },
     {
       "id": "4",
       "nombre": "Monitor Apple",
       "precio": 2501
+    },
+    {
+      "id": "5",
+      "nombre": "Pad Mouse",
+      "precio": 5
     }
   ]
 }
