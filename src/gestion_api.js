@@ -1,4 +1,11 @@
 
+// Module 3 Week 3 - CRUD.
+// BY: Diego Vallejo Zapata
+// Clan Hopper | Riwi
+
+
+
+// API's url:
 const direction = 'http://localhost:3301/productos';
 
 // -------------------------------------------
@@ -28,12 +35,20 @@ async function getData(){
     
 }
 
-getData();
+
 
 // -----------------------------------------
 // POST:
 
 async function postData(producto) {
+
+        // Validar antes de enviar
+    if (!validateData(producto)) {
+        console.log("❌ Producto inválido. No se enviará al servidor.");
+        return; // Salir de la función si los datos son inválidos
+    }
+
+
     try {
         const response = await fetch(direction, {
             method: 'POST',
@@ -49,13 +64,22 @@ async function postData(producto) {
 
         const result = await response.json();
         console.log("Producto agregado:", result);
+
     } catch (error) {
         console.error("Error al hacer POST:", error);
     }
 }
 
-// Ejemplo de uso:
-// postData({ id: "6", nombre: "Silla gamer", precio: 540 });
+
+// Function to validate if whole data are correct -- Apply only for Post Method
+function validateData(producto){
+    if (!producto.nombre || typeof producto.precio !== "number") {
+        console.log("Datos del producto no válidos.");
+        return false;
+    }
+    return true;
+}
+
 
 
 // -----------------------------------------
@@ -82,8 +106,7 @@ async function updateData(id, productoActualizado) {
     }
 }
 
-// Ejemplo de uso:
-// updateData("2", { nombre: "Mouse inalámbrico", precio: 35 });
+
 
 
 // ----------------------------------------------------
@@ -104,14 +127,21 @@ async function deleteData(id) {
     }
 }
 
-// Ejemplo de uso:
-// deleteData("3");
 
 
+// -----------------------------------------
+// USING ALL THESE METHODS TO MAKE A CRUD:
 
 
+// Request of query database:
+getData();
 
+// Adding a new product:
+postData({ id: "4", nombre: "Mesa", precio: 90.1 });
+postData({ id: "5", nombre: "Escritorio gamer", precio: 554.3 });
 
+// Update an specific product:
+updateData("4", { nombre: "Monitor Apple", precio: 2500 });
 
-
-
+// Deleting a product by its Id:
+deleteData("2");
