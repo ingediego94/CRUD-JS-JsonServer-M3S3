@@ -1,4 +1,8 @@
 
+// https://www.youtube.com/watch?v=8yIcHqTG7bU&ab_channel=InformáticaDP
+// https://www.youtube.com/watch?v=kH4UbdlBZHs&ab_channel=InformáticaDP
+// https://www.youtube.com/watch?v=tcPLunlJCtY&ab_channel=InformáticaDP
+
 
 // API's url:
 const direction = 'http://localhost:3301/productos';
