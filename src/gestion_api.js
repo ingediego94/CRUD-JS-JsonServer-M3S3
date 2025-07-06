@@ -86,6 +86,13 @@ function validateData(producto){
 // PUT:
 
 async function updateData(id, productoActualizado) {
+
+    // Validar antes de enviar
+    if (!validateData(producto)) {
+        console.log("❌ Producto inválido. No se enviará al servidor.");
+        return; // Salir de la función si los datos son inválidos
+    }
+
     try {
         const response = await fetch(`${direction}/${id}`, {
             method: 'PUT',
