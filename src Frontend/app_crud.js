@@ -31,7 +31,7 @@ btnCrear.addEventListener('click', ()=>{
 
 
 // -------------------------------------------
-// GET:
+// GET:     To see registers
 
 async function getData(){
     try{
@@ -43,22 +43,15 @@ async function getData(){
 
         const dataObj = await response.json();
         
-        // for(data of dataObj){
-        //     console.log(`id: ${data.id}`);
-        //     console.log(`nombre: ${data.nombre}`);
-        //     console.log(`precio: ${data.precio}`);
-        //     console.log();
-            
-        // }
         dataObj.forEach(articulo => {
             
             resultados += `
                             <tr>
                                 <td>${articulo.id}</td>
                                 <td>${articulo.producto}</td>
-                                <td>$ ${articulo.precio}</td>
+                                <td>${articulo.precio}</td>
                                 <td>${articulo.stock}</td>
-                                <td class="text-center"><a class="btnEditar btn btn-primary">Editar</a> <a class="btnBorrar btn btn-warning">Borrar</a></td>
+                                <td class="text-center"><a class="btnEditar btn btn-primary">Editar</a> <a class="btnBorrar btn btn-danger">Borrar</a></td>
                             <tr>
         `
         });
@@ -70,44 +63,23 @@ async function getData(){
     
 }
 
+// Mandatory to see the whole database
 getData()
-// -----------------------------------------
-// const mostrar = (articulos) => {
-    
-//     articulos.forEach(articulo => {
-        
-//         resultados += `
-//                         <tr>
-//                             <td>${articulo.codigoId}</td>
-//                             <td>${articulo.producto}</td>
-//                             <td>${articulo.precio}</td>
-//                             <td>${articulo.stock}</td>
-//                             <td class="text-center"><a class="btnEditar btn btn-primary">Editar</a><a class="btnBorrar btn btn-primary">Borar</a></td>
-//                         <tr>
-//     `
-//     });
-//     contenedor.innerHTML = resultados;
-// }
-
-// fetch(direccion)
-//     .then(response => response.json())
-//     .then(data => mostrar(data))
-//     .catch(error => console.log(error))
 
 
 
 // -----------------------------------------
-// POST:
+// POST:    To Create new registers
 
 async function postData(producto) {
 
-        // Validar antes de enviar
+        // To validate before to send
     if (!validateData(producto)) {
         console.log("❌ Producto inválido. No se enviará al servidor.");
-        return; // Salir de la función si los datos son inválidos
+        return; // exit the application if the data is incorrect
     }
 
-
+        // Creating new registers
     try {
         const response = await fetch(direction, {
             method: 'POST',
@@ -132,8 +104,8 @@ async function postData(producto) {
 
 // Function to validate if whole data are correct -- Apply only for Post Method
 function validateData(producto){
-    if (!producto.nombre || typeof producto.precio !== "number") {
-        console.log("Datos del producto no válidos.");
+    if ( !producto.id || !producto.producto || typeof producto.precio !== "number" || !producto.stock ) {
+        console.log("Se presentó un fallo.");
         return false;
     }
     return true;
@@ -141,19 +113,22 @@ function validateData(producto){
 
 
 
+
 // -----------------------------------------
-// PUT:
+// PUT:     To Update an specific register.
 
-async function updateData(id, productoActualizado) {
+async function updateData(productoActualizado) {
 
-    // Validar antes de enviar
-    if (!validateData(producto)) {
+    //  To validate before to send
+    if (!validateData(productoActualizado)) {
         console.log("❌ Producto inválido. No se enviará al servidor.");
-        return; // Salir de la función si los datos son inválidos
+        return; // exit the application if the data is incorrect
     }
 
+        // Updating a register.
+
     try {
-        const response = await fetch(`${direction}/${id}`, {
+        const response = await fetch(`${direction}/${idForm}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -176,7 +151,8 @@ async function updateData(id, productoActualizado) {
 
 
 // ----------------------------------------------------
-// DELETE
+// DELETE:      To delete an specific register.
+
 async function deleteData(id) {
     try {
         const response = await fetch(`${direction}/${id}`, {
@@ -195,50 +171,84 @@ async function deleteData(id) {
 
 
 
-// -----------------------------------------
-// USING ALL THESE METHODS TO MAKE A CRUD:
+// ------------------------------------------------------------------------
 
+// To add functionality to each bottom (Edit and Erase)
+const on = (element, event, selector, handler)=>{
+    element.addEventListener(event, e => {
+        if(e.target.closest(selector)){
+            handler(e)
+        }
+    })
+}
 
-// // Request of query database:
-// getData();
-
-// // Adding a new product:
-// postData({ id: "4", nombre: "Mesa", precio: 90.1 });
-// postData({ id: "5", nombre: "Escritorio gamer", precio: 554.3 });
-
-// // Update an specific product:
-// updateData("4", { nombre: "Monitor Apple", precio: 2500 });
-
-// // Deleting a product by its Id:
-// deleteData("2");
-
-
-
-
-//--------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------
-
-
-
-
-// const mostrar = (articulos) => {
+on(document, 'click', '.btnBorrar', e => {
+    const fila = e.target.parentNode.parentNode;
+    const id_code = fila.firstElementChild.innerHTML;
+    console.log(id_code);
     
-//     articulos.forEach(articulo => {
-        
-//     resultados += `
-//                     <tr>
-//                         <td>${articulo.codigoId}</td>
-//                         <td>${articulo.producto}</td>
-//                         <td>${articulo.precio}</td>
-//                         <td>${articulo.stock}</td>
-//                         <td class="text-center"><a class="btnEditar btn btn-primary">Editar</a><a class="btnBorrar btn btn-danger">Borar</a></td>
-//                     <tr>
-//     `
-//     });
-//     contenedor.innerHTML = resultados;
-// }
+    alertify.confirm("¿Desea borrar el registro seleccionado?",
+    function(){
+        deleteData(id_code);    // Calling to deleteData() to DELETE the element selected         
+        alertify.success('Realizado con éxito.');
+    },
+    function(){
+        alertify.error('Operacion cancelada.');
+    });
+})
 
-// fetch(direccion)
-//     .then(response => response.json())
-//     .then(data => mostrar(data))
-//     .catch(error => console.log(error))
+
+// --------------------------------------
+// Logic to catch data from Html document.
+let idForm = 0;
+
+
+on(document, 'click', '.btnEditar', e => {
+    //console.log('EDITADO');
+    const fila = e.target.parentNode.parentNode;
+    // console.log(fila);
+    idForm = fila.children[0].innerHTML;         // another way to capture first element
+    //console.log(idForm);
+    const productoForm = fila.children[1].innerHTML;
+    // console.log(productoForm);
+    const precioForm = fila.children[2].innerHTML;
+    // console.log(precioForm);
+    const stockForm = fila.children[3].innerHTML;
+    //console.log(stockForm);
+    // console.log(`ID: ${idForm} - PRODUCTO: ${productoForm} - PRECIO: ${precioForm} - STOCK: ${stockForm}`);
+    
+    // To modify database
+    id.value = idForm;
+    producto.value = productoForm;
+    precio.value = precioForm;
+    stock.value = stockForm;
+    
+    opcion = 'editar';
+    modalArticulo.show();
+
+})
+
+
+formArticulo.addEventListener('submit', (e)=>{
+    e.preventDefault();
+
+    let newProduct = {
+        id: id.value,
+        producto: producto.value,
+        precio: parseFloat(precio.value),
+        stock: parseInt(stock.value)
+    };
+
+
+    // It validates if the choice was to Create or to Edit an register.
+
+    if(opcion == 'crear'){
+        postData(newProduct);
+    }
+    if (opcion == 'editar'){
+        // console.log("OPCION EDITAR");
+        updateData(newProduct);
+    }
+
+    modalArticulo.hide();
+})

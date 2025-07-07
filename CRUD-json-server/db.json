@@ -2,39 +2,33 @@
   "productos": [
     {
       "id": "1",
-      "producto": "Laptop",
-      "precio": 1500, 
-      "stock":10
+      "producto": "Mouse Red Dragon",
+      "precio": 99850,
+      "stock": 10
     },
     {
       "id": "2",
-      "producto": "PC gamer",
-      "precio": 4500, 
-      "stock":4
+      "producto": "Pc Gamer",
+      "precio": 75000000,
+      "stock": 3
     },
     {
       "id": "3",
       "producto": "Teclado",
-      "precio": 50,
-      "stock":16
-    },
-    {
-      "id": "4",
-      "producto": "Mesa",
-      "precio": 90.1,
-      "stock":9
+      "precio": 50500,
+      "stock": 16
     },
     {
       "id": "5",
-      "producto": "Escritorio gamer",
-      "precio": 554.3,
-      "stock":2
+      "producto": "Bicicleta GW con IA",
+      "precio": 990350,
+      "stock": 12
     },
-        {
-      "id": "6",
-      "producto": "Libro de Python",
-      "precio": 90,
-      "stock":30
+    {
+      "id": "4",
+      "producto": "iPhone 15",
+      "precio": 3500250,
+      "stock": 3
     }
   ]
 }
